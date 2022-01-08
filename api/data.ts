@@ -4,12 +4,21 @@ export interface UserData {
   gravatar_id: string;
 }
 
+export interface Scale
+{
+  name: string;
+  displayName: string;
+  values: string[]
+}
+
 export class RoomStatus {
   room_name: string;
   hashed_password: string;
   users: UserData[];
   votes_cast: number;
   selected_user: string;
+  scale_values: Scale[];
+  selected_scale_name: string;
 }
 
 export interface UserIdRoom {

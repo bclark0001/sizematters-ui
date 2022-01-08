@@ -47,8 +47,11 @@ function processMessage(msg: MessageEvent) {
     case "Randomized":
       roomStore.randomized(data.data.room_name, data.data.selected_user_id);
       break;
+    case "ScaleChanged":
+      roomStore.scaleChanged(data.data.room_name, data.data.selected_scale);
+      break;
     default:
-      console.log("message not handled:" + data.type);
+      console.log("websocket.processMessage: message not handled:" + data.type);
   }
 }
 
@@ -103,38 +106,42 @@ export default {
   },
 
   connect(successCallback: Function, failureCallback: Function) {
-    socket = new WebSocket(process.env.VUE_APP_BACKEND);
+    //socket = new WebSocket("wss://ws.sizematters.dev");
+    socket = new WebSocket("ws://localhost:9001");
     socket.onmessage = msg => processMessage(msg);
     checkConnection(successCallback, failureCallback);
   },
 
   joinRoom(roomName: string, password: string, passwordIsHash: boolean) {
     // eslint-disable-next-line
-    sendMessage("JoinRoom", { room_name: roomName, password: password, password_is_hash: passwordIsHash });
+    sendMessage("JoinRoom", { "room_name": roomName, "password": password, "password_is_hash": passwordIsHash });
   },
 
   leaveRoom(roomName: string) {
     // eslint-disable-next-line
-    sendMessage("LeaveRoom", { room_name: roomName });
+    sendMessage("LeaveRoom", { "room_name": roomName });
   },
 
   vote(roomName: string, size: number) {
     // eslint-disable-next-line
-    sendMessage("Vote", { room_name: roomName, size: size });
+    sendMessage("Vote", { "room_name": roomName, size: size });
   },
 
   newVote(roomName: string) {
     // eslint-disable-next-line
-    sendMessage("NewVote", { room_name: roomName });
+    sendMessage("NewVote", { "room_name": roomName });
   },
 
   randomize(roomName: string) {
-    // eslint-disable-next-line
-    sendMessage("Randomize", { room_name: roomName });
+    sendMessage("Randomize", { "room_name": roomName });
   },
 
   register() {
     sendMessage("Register", null);
+  },
+
+  changeScale(roomName: string, scale: string) {
+    sendMessage("ChangeScale", {"room_name": roomName, "selected_scale": scale } );
   },
 
   setAvatar(email: string) {

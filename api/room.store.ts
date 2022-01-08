@@ -1,4 +1,4 @@
-import { RoomStatus, UserRoom, UserIdRoom } from "./data";
+import {RoomStatus, UserRoom, UserIdRoom, Scale} from "./data";
 
 import userStore from "./user.store";
 
@@ -75,6 +75,13 @@ function randomized(roomName: string, selectedUser: string) {
   room.selected_user = selectedUser;
 }
 
+function scaleChanged(roomName: string, selectedScaleName: string) {
+  const room = getRoom(roomName);
+  // eslint-disable-next-line
+  room.selected_scale_name = selectedScaleName;
+  console.debug(room);
+}
+
 export default {
   rooms(): Array<RoomStatus> {
     return rooms;
@@ -106,5 +113,11 @@ export default {
 
   randomized(roomName: string, selectedUser: string) {
     randomized(roomName, selectedUser);
+  },
+
+  scaleChanged(roomName: string, selectedScale: Scale)
+  {
+    scaleChanged(roomName, selectedScale.name);
+
   }
 };
