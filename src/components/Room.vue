@@ -69,7 +69,9 @@ export default class Room extends Vue {
   votingDone = false;
   domain = process.env.VUE_APP_DOMAIN;
 
-  numbers: number[] = [0, 1, 2, 3, 5, 8, 13, 21];
+//numbers: number[] = [0, 1, 2, 3, 5, 8, 13, 21];
+  //numbers: string[] = roomStore.room(this.roomName).scale_values[roomStore.room(this.roomName).selected_scale_name];
+  numbers: string[] = [];
 
   onVotingResults(roomData: RoomData) {
     if (this.roomName == roomData.room_name) {
@@ -100,10 +102,34 @@ export default class Room extends Vue {
     }
   }
 
+  onScaleChanged(data)
+  {
+    //console.log("Room: " + data.selected_scale.values);
+    if(data)
+    {
+      this.numbers = data.selected_scale.values;
+    }
+    else
+    {
+      this.numbers = this.roomStatus.scale_values[this.roomStatus.selected_scale_name];
+    }
+  }
+
+  onRoomJoined(data)
+  {
+    console.log("Room.onRoomJoined: numbers: " + this.numbers);
+    const selectedScaleName = data.selected_scale;
+    const selectedScaleValues = data.scale_values[selectedScaleName];
+    this.numbers = selectedScaleValues;
+
+  }
+
   created() {
+    this.onScaleChanged();
     websocket.on("VoteResults", this.onVotingResults);
     websocket.on("NewVote", this.onNewVote);
     websocket.on("Randomized", this.onRandomized);
+    websocket.on("ScaleChanged", this.onScaleChanged);
   }
 
   castVote(value) {

@@ -17,7 +17,7 @@ export class RoomStatus {
   users: UserData[];
   votes_cast: number;
   selected_user: string;
-  scale_values: Scale[];
+  scale_values: Map<string, Scale>;
   selected_scale_name: string;
 }
 

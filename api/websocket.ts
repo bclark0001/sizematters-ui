@@ -11,6 +11,7 @@ function processMessage(msg: MessageEvent) {
   eventBus.$emit(data.type, data.data);
   switch (data.type) {
     case "RoomJoined":
+      console.log("websocket.processMessage: RoomJoined")
       userStore.roomJoined(data.data);
       voteStore.roomJoined(data.data);
       roomStore.roomJoined(data.data);
@@ -140,8 +141,8 @@ export default {
     sendMessage("Register", null);
   },
 
-  changeScale(roomName: string, scale: string) {
-    sendMessage("ChangeScale", {"room_name": roomName, "selected_scale": scale } );
+  changeScale(roomName: string, selectedScaleName: string) {
+    sendMessage("ChangeScale", {"room_name": roomName, "selected_scale_name": selectedScaleName } );
   },
 
   setAvatar(email: string) {

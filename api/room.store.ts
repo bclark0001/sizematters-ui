@@ -14,6 +14,13 @@ function getRoom(roomName: string): RoomStatus {
   return room;
 }
 
+function getNumbers(roomName: string):string[]
+{
+  const room = getRoom(roomName);
+  const numbers =  room.scale_values[room.selected_scale_name].values;
+  return numbers;
+}
+
 function roomJoined(roomStatus: RoomStatus) {
   roomMap.set(roomStatus.room_name, roomStatus);
   rooms.push(roomStatus);
@@ -89,6 +96,12 @@ export default {
 
   room(roomName: string): RoomStatus {
     return getRoom(roomName);
+  },
+
+  numbers(roomName: string): string[]
+  {
+    return getNumbers(roomName);
+
   },
 
   roomJoined(roomStatus: RoomStatus) {

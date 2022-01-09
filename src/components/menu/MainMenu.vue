@@ -176,12 +176,24 @@ export default class MenuMain extends Vue {
 
   roomName = "";
   roomPassword = "";
-  selectedScale = "fistOfFive";
+  selectedScale = "";
+  initialScaleSet = false;
+  lastRoomSelected = "";
 
   rooms: RoomStatus[] = roomStore.rooms();
 
   created() {
+
+    this.$watch('selectedScale', function (newValue, oldValue) {
+      console.log("MainMenu.$watch oldValue:" + oldValue + ", newValue: " + newValue + ", roomName: " + this.lastRoomSelected)
+      if(oldValue != "")
+      {
+        websocket.changeScale(this.lastRoomSelected, this.selectedScale)
+      }
+    })
+
     websocket.on("OwnData", this.personalDataReceived);
+    websocket.on("ScaleChanged", this.scaleChangeReceived);
     websocket.register();
   }
 
@@ -194,6 +206,15 @@ export default class MenuMain extends Vue {
     this.providedUrl = "";
   }
 
+  scaleChangeReceived(data)
+  {
+    console.log("MainMenu.scaleChangeReceived")
+    if(data.selected_scale.name != this.selectedScale)
+    {
+      this.selectedScale = data.selected_scale.name;
+    }
+  }
+
   setName(name) {
     websocket.setName(name);
   }
@@ -203,10 +224,12 @@ export default class MenuMain extends Vue {
   }
 
   joinRoom() {
+    console.log("MainMenu.joinRoom")
     websocket.joinRoom(this.roomName, this.roomPassword, false);
     this.showRoomDialog = false;
     this.roomName = "";
     this.roomPassword = "";
+    this.selectedScale = "fistOfFive";
   }
 
   leaveRoom(roomName: string) {
@@ -214,7 +237,21 @@ export default class MenuMain extends Vue {
   }
   scaleChanged(roomName: string)
   {
-    websocket.changeScale(roomName, this.selectedScale)
+    console.log("MainMenu.scaleChanged, roomName: " + roomName)
+    //Sink the first event to avoid infinate loop.
+    /*
+    if(this.initialScaleSet)
+    {
+      console.log("MainMenu.scaleChanged: true")
+      websocket.changeScale(roomName, this.selectedScale)
+    }
+    else
+    {
+      console.log("MainMenu.scaleChanged: false")
+      this.initialScaleSet = true;
+    }
+    */
+    this.lastRoomSelected = roomName;
   }
 }
 </script>
