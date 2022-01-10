@@ -185,7 +185,6 @@ export default class MenuMain extends Vue {
   created() {
 
     this.$watch('selectedScale', function (newValue, oldValue) {
-      console.log("MainMenu.$watch oldValue:" + oldValue + ", newValue: " + newValue + ", roomName: " + this.lastRoomSelected)
       if(oldValue != "")
       {
         websocket.changeScale(this.lastRoomSelected, this.selectedScale)
@@ -218,7 +217,6 @@ export default class MenuMain extends Vue {
 
   scaleChangeReceived(data)
   {
-    console.log("MainMenu.scaleChangeReceived")
     if(data.selected_scale.name != this.selectedScale)
     {
       this.selectedScale = data.selected_scale.name;
@@ -247,19 +245,6 @@ export default class MenuMain extends Vue {
   scaleChanged(roomName: string)
   {
     console.log("MainMenu.scaleChanged, roomName: " + roomName)
-    //Sink the first event to avoid infinate loop.
-    /*
-    if(this.initialScaleSet)
-    {
-      console.log("MainMenu.scaleChanged: true")
-      websocket.changeScale(roomName, this.selectedScale)
-    }
-    else
-    {
-      console.log("MainMenu.scaleChanged: false")
-      this.initialScaleSet = true;
-    }
-    */
     this.lastRoomSelected = roomName;
   }
 }

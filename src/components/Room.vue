@@ -104,7 +104,6 @@ export default class Room extends Vue {
 
   onScaleChanged(data)
   {
-    //console.log("Room: " + data.selected_scale.values);
     if(data)
     {
       this.numbers = data.selected_scale.values;
