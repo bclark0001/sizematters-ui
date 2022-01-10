@@ -111,17 +111,8 @@ export default class Room extends Vue {
     }
     else
     {
-      this.numbers = this.roomStatus.scale_values[this.roomStatus.selected_scale_name];
+      this.numbers = this.roomStatus.scale_values[this.roomStatus.selected_scale_name].values;
     }
-  }
-
-  onRoomJoined(data)
-  {
-    console.log("Room.onRoomJoined: numbers: " + this.numbers);
-    const selectedScaleName = data.selected_scale;
-    const selectedScaleValues = data.scale_values[selectedScaleName];
-    this.numbers = selectedScaleValues;
-
   }
 
   created() {

@@ -194,7 +194,17 @@ export default class MenuMain extends Vue {
 
     websocket.on("OwnData", this.personalDataReceived);
     websocket.on("ScaleChanged", this.scaleChangeReceived);
+    websocket.on("RoomJoined", this.onRoomJoined);
     websocket.register();
+  }
+
+  onRoomJoined(data)
+  {
+    const roomName = data.room_name;
+    const selectedScaleName = data.selected_scale_name;
+    console.log("MainMenu.onRoomJoined: " + "roomName: " + roomName + ", selectedScaleName: " + selectedScaleName);
+    this.selectedScale = selectedScaleName;
+
   }
 
   personalDataReceived(data) {
@@ -229,7 +239,6 @@ export default class MenuMain extends Vue {
     this.showRoomDialog = false;
     this.roomName = "";
     this.roomPassword = "";
-    this.selectedScale = "fistOfFive";
   }
 
   leaveRoom(roomName: string) {
