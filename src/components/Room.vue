@@ -69,8 +69,6 @@ export default class Room extends Vue {
   votingDone = false;
   domain = process.env.VUE_APP_DOMAIN;
 
-//numbers: number[] = [0, 1, 2, 3, 5, 8, 13, 21];
-  //numbers: string[] = roomStore.room(this.roomName).scale_values[roomStore.room(this.roomName).selected_scale_name];
   numbers: string[] = [];
 
   onVotingResults(roomData: RoomData) {

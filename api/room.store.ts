@@ -86,7 +86,6 @@ function scaleChanged(roomName: string, selectedScaleName: string) {
   const room = getRoom(roomName);
   // eslint-disable-next-line
   room.selected_scale_name = selectedScaleName;
-  console.debug(room);
 }
 
 export default {

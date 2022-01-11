@@ -11,7 +11,6 @@ function processMessage(msg: MessageEvent) {
   eventBus.$emit(data.type, data.data);
   switch (data.type) {
     case "RoomJoined":
-      console.log("websocket.processMessage: RoomJoined")
       userStore.roomJoined(data.data);
       voteStore.roomJoined(data.data);
       roomStore.roomJoined(data.data);

@@ -177,7 +177,6 @@ export default class MenuMain extends Vue {
   roomName = "";
   roomPassword = "";
   selectedScale = "";
-  initialScaleSet = false;
   lastRoomSelected = "";
 
   rooms: RoomStatus[] = roomStore.rooms();
@@ -201,7 +200,6 @@ export default class MenuMain extends Vue {
   {
     const roomName = data.room_name;
     const selectedScaleName = data.selected_scale_name;
-    console.log("MainMenu.onRoomJoined: " + "roomName: " + roomName + ", selectedScaleName: " + selectedScaleName);
     this.selectedScale = selectedScaleName;
 
   }
@@ -232,7 +230,6 @@ export default class MenuMain extends Vue {
   }
 
   joinRoom() {
-    console.log("MainMenu.joinRoom")
     websocket.joinRoom(this.roomName, this.roomPassword, false);
     this.showRoomDialog = false;
     this.roomName = "";
@@ -244,7 +241,6 @@ export default class MenuMain extends Vue {
   }
   scaleChanged(roomName: string)
   {
-    console.log("MainMenu.scaleChanged, roomName: " + roomName)
     this.lastRoomSelected = roomName;
   }
 }
