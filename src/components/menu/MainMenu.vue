@@ -198,10 +198,7 @@ export default class MenuMain extends Vue {
 
   onRoomJoined(data)
   {
-    const roomName = data.room_name;
-    const selectedScaleName = data.selected_scale_name;
-    this.selectedScale = selectedScaleName;
-
+    this.selectedScale = data.selected_scale_name;
   }
 
   personalDataReceived(data) {

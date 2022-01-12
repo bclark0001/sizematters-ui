@@ -2,9 +2,7 @@
   <md-card class="room">
     <md-card-header class="header">
       <div class="md-title">
-        {{ roomName }} - https://{{ domain }}/room/{{ roomName }}/{{
-          roomStatus.hashed_password
-        }}
+        {{roomInfo}}
       </div>
     </md-card-header>
     <md-card-content class="user-space">
@@ -67,7 +65,7 @@ export default class Room extends Vue {
   vote = voteStore.getOwnVote(this.roomName);
   selected = "";
   votingDone = false;
-  domain = process.env.VUE_APP_DOMAIN;
+  roomInfo = "";
 
   numbers: string[] = [];
 
@@ -112,7 +110,22 @@ export default class Room extends Vue {
     }
   }
 
-  created() {
+  updateRoomInfo()
+  {
+    this.roomInfo =
+        this.roomName +
+        " - " +
+        window.location.protocol +
+        "://" +
+        window.location.host +
+        "/room/" +
+        this.roomName +
+        "/" +
+        this.roomStatus.hashed_password;
+}
+
+created() {
+    this.updateRoomInfo()
     this.onScaleChanged();
     websocket.on("VoteResults", this.onVotingResults);
     websocket.on("NewVote", this.onNewVote);

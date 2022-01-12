@@ -2,6 +2,7 @@ import Vue from "vue";
 import roomStore from "./room.store";
 import userStore from "./user.store";
 import voteStore from "./vote.store";
+import config from "./config.helper";
 
 let socket: WebSocket;
 const eventBus = new Vue();
@@ -106,8 +107,7 @@ export default {
   },
 
   connect(successCallback: Function, failureCallback: Function) {
-    //socket = new WebSocket("wss://ws.sizematters.dev");
-    socket = new WebSocket("ws://localhost:9001");
+    socket = new WebSocket(config.getConfiguredServer());
     socket.onmessage = msg => processMessage(msg);
     checkConnection(successCallback, failureCallback);
   },
