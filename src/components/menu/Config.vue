@@ -28,7 +28,7 @@ import config from "@/../api/config.helper";
 export default class Config extends Vue
 {
   currentServer = "";
-  servers = []
+  servers: string[] = []
   showSnackbar = false;
   snackbarPosition = 'center'
   snackbarDuration = 1500
@@ -42,7 +42,6 @@ export default class Config extends Vue
   onSave()
   {
     config.setConfiguredServer(this.currentServer);
-    this.showSnackBar = false;
   }
 
   onReset()

@@ -98,11 +98,11 @@ export default class Room extends Vue {
     }
   }
 
-  onScaleChanged(data)
+  onScaleChanged(roomData?: RoomData)
   {
-    if(data)
+    if(roomData)
     {
-      this.numbers = data.selected_scale.values;
+      this.numbers = roomData.selected_scale.values;
     }
     else
     {

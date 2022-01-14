@@ -54,6 +54,7 @@ export interface VoteResults {
 export interface RoomData {
   room_name: string;
   selected_user_id: string;
+  selected_scale: Scale;
 }
 
 export class BoxedValue<T> {
