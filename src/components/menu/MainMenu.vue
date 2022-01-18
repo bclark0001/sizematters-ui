@@ -53,7 +53,7 @@
             <md-field>
               <label for="selected_scale">Scale</label>
 
-              <md-select v-model="selectedScale" name="scale" v-on="scaleChanged(room.room_name)">
+              <md-select v-model="room.selected_scale_name" name="scale" v-on="scaleChanged(room.room_name)">
                 <md-option value="fistOfFive">FistOfFive</md-option>
                 <md-option value="fibonacci">Fibonacci</md-option>
               </md-select>
@@ -182,14 +182,6 @@ export default class MenuMain extends Vue {
   rooms: RoomStatus[] = roomStore.rooms();
 
   created() {
-
-    this.$watch('selectedScale', function (newValue, oldValue) {
-      if(oldValue != "")
-      {
-        websocket.changeScale(this.lastRoomSelected, this.selectedScale)
-      }
-    })
-
     websocket.on("OwnData", this.personalDataReceived);
     websocket.on("ScaleChanged", this.scaleChangeReceived);
     websocket.on("RoomJoined", this.onRoomJoined);
@@ -208,6 +200,7 @@ export default class MenuMain extends Vue {
       "https://www.gravatar.com/avatar/" + userData.gravatar_id + "?d=retro";
     this.providedName = userData.name;
     this.providedUrl = "";
+    this.selectedScale = data.selected_scale_name;
   }
 
   scaleChangeReceived(data)
@@ -238,7 +231,8 @@ export default class MenuMain extends Vue {
   }
   scaleChanged(roomName: string)
   {
-    this.lastRoomSelected = roomName;
+    const room: RoomStatus = this.rooms.find(room => room.room_name == roomName)
+    websocket.changeScale(roomName, room.selected_scale_name);
   }
 }
 </script>
