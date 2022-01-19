@@ -53,7 +53,8 @@
             <md-field>
               <label for="selected_scale">Scale</label>
               <md-select v-model="room.selected_scale_name" name="scale" v-on="scaleChanged(room.room_name)">
-                <md-option v-for="scale in room.scale_values" :value="scale.name">{{scale.displayName}}</md-option>
+                <md-option v-for="scale in room.scale_values" :key="scale.name" :value="scale.name">
+                  {{scale.displayName}}</md-option>
               </md-select>
             </md-field>
           </md-card-content>
@@ -203,7 +204,7 @@ export default class MenuMain extends Vue {
   }
   scaleChanged(roomName: string)
   {
-    const room: RoomStatus = this.rooms.find(room => room.room_name == roomName)
+    const room: RoomStatus = this.rooms.find(room => room.room_name == roomName)!;
     websocket.changeScale(roomName, room.selected_scale_name);
   }
 }
