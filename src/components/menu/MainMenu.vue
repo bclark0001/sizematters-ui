@@ -52,37 +52,9 @@
             Voting: {{ room.votes_cast }}/{{ room.users.length }}
             <md-field>
               <label for="selected_scale">Scale</label>
-
               <md-select v-model="room.selected_scale_name" name="scale" v-on="scaleChanged(room.room_name)">
-                <md-option value="fistOfFive">FistOfFive</md-option>
-                <md-option value="fibonacci">Fibonacci</md-option>
+                <md-option v-for="scale in room.scale_values" :value="scale.name">{{scale.displayName}}</md-option>
               </md-select>
-
-              <!--
-              todo leaving this in here commented out.  Will try to get Andre's help with this.  Goal was
-              to have the possible scale options, but I could not get this working with a select list.
-              Two issues.
-
-              1) How to get the retrieved room.scale_values available when this is rendered
-              2) How to use v-for with a md-select
-
-              Tried this
-              <md-select  v-model= "selected_scale" name="selected_scale" id="selected_scale" v-on= "scaleChanged()">
-                <md-option v-for="scaleName in tempScales" :key="scaleName" :value="scaleName">
-                  {{ scaleName }}</md-option>
-              </md-select>
-              <md-list v-for="scaleName in tempScales" :key="scaleName" id="selected_scale">
-                <md-list-item>{{scaleName}}</md-list-item>
-              </md-list>
-
-              Tried this
-              <md-select v-model = "room.scale.name" name="scale" id="scale" v-on = "scaleChanged()">
-                <md-option  v-for="scale in room.scale_values" :key="scale.name">
-                  {{ scaleName }}</md-option>
-              </md-select>
-              -->
-
-
             </md-field>
           </md-card-content>
           <md-card-actions>
