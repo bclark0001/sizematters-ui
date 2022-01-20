@@ -4,7 +4,7 @@ export default
 {
     getServerList()
     {
-        return ["wss://ws.sizematters.dev", "ws://localhost:9001"];
+        return ["wss://ws.sizematters.dev", "ws://localhost:9001", "wss://sm-test-ws.t.brazenconnect.com"];
     },
     getDefaultServer()
     {
