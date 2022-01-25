@@ -30,16 +30,6 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: "/config",
-    name: "config",
-    components: {
-      default: () =>
-          import(
-              /* webpackChunkName: "config" */ "../components/menu/Config.vue"
-              )
-    }
-  },
-  {
     path: "/room/:roomName/:password",
     components: {
       default: () =>
