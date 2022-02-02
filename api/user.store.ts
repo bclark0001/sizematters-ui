@@ -32,6 +32,16 @@ function setNameSet() {
   nameSet.value = true;
 }
 
+function activeUpdated(userData: UserData)
+{
+  const user = users.get(userData.user_id);
+  if(user !== undefined )
+  {
+    // eslint-disable-next-line
+    user.active = userData.active;
+  }
+}
+
 export default {
   users(): Map<string, UserData> {
     return users;
@@ -63,5 +73,9 @@ export default {
 
   setNameSet() {
     setNameSet();
+  },
+  activeUpdated(userData: UserData)
+  {
+    activeUpdated(userData);
   }
 };

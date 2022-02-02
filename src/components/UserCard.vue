@@ -16,6 +16,7 @@
     <md-card-media>
       <Gravatar v-bind:gravatar="userData.gravatar_id" class="user-pic" />
       <div class="user-size">{{ userVote.value }}</div>
+      <md-switch v-model="userData.active" v-on="activeChanged()">Active</md-switch>
     </md-card-media>
   </md-card>
 </template>
@@ -26,6 +27,7 @@ import { UserData } from "@/../api/data";
 import voteStore from "@/../api/vote.store";
 import userStore from "@/../api/user.store";
 import Gravatar from "./Gravatar.vue";
+import websocket from "../../api/websocket";
 
 @Component({ components: { Gravatar } })
 export default class UserCard extends Vue {
@@ -51,6 +53,10 @@ export default class UserCard extends Vue {
       .map((c) => c.charCodeAt(0) - baseCharCode + 11)
       .map((n) => n.toString())
       .join("");
+  }
+  activeChanged()
+  {
+    websocket.updateActive(this.roomName, this.userData!.user_id, this.userData!.active)
   }
 }
 </script>

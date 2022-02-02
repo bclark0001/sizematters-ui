@@ -116,13 +116,13 @@ export default class Room extends Vue {
         this.roomName +
         " - " +
         window.location.protocol +
-        "://" +
+        "//" +
         window.location.host +
         "/room/" +
         this.roomName +
         "/" +
         this.roomStatus.hashed_password;
-}
+  }
 
 created() {
     this.updateRoomInfo()

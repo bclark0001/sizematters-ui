@@ -51,6 +51,9 @@ function processMessage(msg: MessageEvent) {
     case "ScaleChanged":
       roomStore.scaleChanged(data.data.room_name, data.data.selected_scale);
       break;
+    case "ActiveUpdated":
+      userStore.activeUpdated(data.data);
+      break;
     default:
       console.log("websocket.processMessage: message not handled:" + data.type);
   }
@@ -68,6 +71,10 @@ function setName(name: string) {
   sendMessage("SetName", { name: name });
   localStorage.setItem("name", name);
   userStore.setNameSet();
+}
+
+function updateActive(roomName: string, userId: string, active: boolean) {
+  sendMessage("UpdateActive", { "room_name": roomName, "user_id": userId, "active": active });
 }
 
 function setAvatar(email: string) {
@@ -150,6 +157,11 @@ export default {
 
   setName(name: string) {
     setName(name);
+  },
+  
+  updateActive(roomName: string, userId: string, active: boolean)
+  {
+      updateActive(roomName, userId, active);
   },
 
   on(event: string, callback: Function) {
