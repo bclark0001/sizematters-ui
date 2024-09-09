@@ -3,6 +3,12 @@
     <md-card-header class="header">
       <div class="md-title">
         {{roomInfo}}
+      <md-button
+          class="md-raised"
+          @click="copyRoomUrl"
+      >
+        Copy Url
+      </md-button>
       </div>
     </md-card-header>
     <md-card-content class="user-space">
@@ -115,16 +121,15 @@ export default class Room extends Vue {
     this.roomInfo =
         this.roomName +
         " - " +
-        window.location.protocol +
-        "//" +
-        window.location.host +
-        "/room/" +
-        this.roomName +
-        "/" +
-        this.roomStatus.hashed_password;
+        roomStore.roomUrl(this.roomStatus);
   }
 
-created() {
+  copyRoomUrl()
+  {
+    roomStore.copyRoomUrl(this.roomStatus);
+  }
+
+  created() {
     this.updateRoomInfo()
     this.onScaleChanged();
     websocket.on("VoteResults", this.onVotingResults);

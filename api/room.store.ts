@@ -87,6 +87,30 @@ function scaleChanged(roomName: string, selectedScaleName: string) {
   // eslint-disable-next-line
   room.selected_scale_name = selectedScaleName;
 }
+function roomUrl(roomStatus: RoomStatus): string
+{
+  return window.location.protocol +
+  "//" +
+  window.location.host +
+  "/room/" +
+  roomStatus.room_name +
+  "/" +
+  roomStatus.hashed_password;
+}
+
+function textToClipboard (text) {
+  const dummy = document.createElement("textarea");
+  document.body.appendChild(dummy);
+  dummy.value = text;
+  dummy.select();
+  document.execCommand("copy");
+  document.body.removeChild(dummy);
+}
+
+function copyRoomUrl(roomStatus: RoomStatus)
+{
+  textToClipboard(roomUrl(roomStatus));
+}
 
 export default {
   rooms(): Array<RoomStatus> {
@@ -131,5 +155,13 @@ export default {
   {
     scaleChanged(roomName, selectedScale.name);
 
+  },
+  roomUrl(roomStatus: RoomStatus): string
+  {
+    return roomUrl(roomStatus);
+  },
+  copyRoomUrl(roomStatus: RoomStatus)
+  {
+    copyRoomUrl(roomStatus);
   }
 };
