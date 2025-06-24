@@ -2,13 +2,8 @@
   <md-card class="room">
     <md-card-header class="header">
       <div class="md-title">
-        {{roomInfo}}
-      <md-button
-          class="md-raised"
-          @click="copyRoomUrl"
-      >
-        Copy Url
-      </md-button>
+        {{ roomInfo }}
+        <md-button class="md-raised" @click="copyRoomUrl"> Copy Url </md-button>
       </div>
     </md-card-header>
     <md-card-content class="user-space">
@@ -104,33 +99,27 @@ export default class Room extends Vue {
     }
   }
 
-  onScaleChanged(roomData?: RoomData)
-  {
-    if(roomData)
-    {
+  onScaleChanged(roomData?: RoomData) {
+    if (roomData) {
       this.numbers = roomData.selected_scale.values;
-    }
-    else
-    {
-      this.numbers = this.roomStatus.scale_values[this.roomStatus.selected_scale_name].values;
+    } else {
+      this.numbers =
+        this.roomStatus.scale_values[
+          this.roomStatus.selected_scale_name
+        ].values;
     }
   }
 
-  updateRoomInfo()
-  {
-    this.roomInfo =
-        this.roomName +
-        " - " +
-        roomStore.roomUrl(this.roomStatus);
+  updateRoomInfo() {
+    this.roomInfo = this.roomName + " - " + roomStore.roomUrl(this.roomStatus);
   }
 
-  copyRoomUrl()
-  {
+  copyRoomUrl() {
     roomStore.copyRoomUrl(this.roomStatus);
   }
 
   created() {
-    this.updateRoomInfo()
+    this.updateRoomInfo();
     this.onScaleChanged();
     websocket.on("VoteResults", this.onVotingResults);
     websocket.on("NewVote", this.onNewVote);

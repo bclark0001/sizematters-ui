@@ -5,11 +5,10 @@ export interface UserData {
   active: boolean;
 }
 
-export interface Scale
-{
+export interface Scale {
   name: string;
   displayName: string;
-  values: string[]
+  values: string[];
 }
 
 export class RoomStatus {

@@ -2,7 +2,6 @@ import Vue from "vue";
 import roomStore from "./room.store";
 import userStore from "./user.store";
 import voteStore from "./vote.store";
-import config from "./config.helper";
 
 let socket: WebSocket;
 const eventBus = new Vue();
@@ -74,7 +73,11 @@ function setName(name: string) {
 }
 
 function updateActive(roomName: string, userId: string, active: boolean) {
-  sendMessage("UpdateActive", { "room_name": roomName, "user_id": userId, "active": active });
+  sendMessage("UpdateActive", {
+    room_name: roomName,
+    user_id: userId,
+    active: active,
+  });
 }
 
 function setAvatar(email: string) {
@@ -114,33 +117,37 @@ export default {
   },
 
   connect(successCallback: Function, failureCallback: Function) {
-    socket = new WebSocket(config.getConfiguredServer());
-    socket.onmessage = msg => processMessage(msg);
+    socket = new WebSocket(process.env.VUE_APP_BACKEND);
+    socket.onmessage = (msg) => processMessage(msg);
     checkConnection(successCallback, failureCallback);
   },
 
   joinRoom(roomName: string, password: string, passwordIsHash: boolean) {
     // eslint-disable-next-line
-    sendMessage("JoinRoom", { "room_name": roomName, "password": password, "password_is_hash": passwordIsHash });
+    sendMessage("JoinRoom", {
+      room_name: roomName,
+      password: password,
+      password_is_hash: passwordIsHash,
+    });
   },
 
   leaveRoom(roomName: string) {
     // eslint-disable-next-line
-    sendMessage("LeaveRoom", { "room_name": roomName });
+    sendMessage("LeaveRoom", { room_name: roomName });
   },
 
   vote(roomName: string, size: number) {
     // eslint-disable-next-line
-    sendMessage("Vote", { "room_name": roomName, size: size });
+    sendMessage("Vote", { room_name: roomName, size: size });
   },
 
   newVote(roomName: string) {
     // eslint-disable-next-line
-    sendMessage("NewVote", { "room_name": roomName });
+    sendMessage("NewVote", { room_name: roomName });
   },
 
   randomize(roomName: string) {
-    sendMessage("Randomize", { "room_name": roomName });
+    sendMessage("Randomize", { room_name: roomName });
   },
 
   register() {
@@ -148,7 +155,10 @@ export default {
   },
 
   changeScale(roomName: string, selectedScaleName: string) {
-    sendMessage("ChangeScale", {"room_name": roomName, "selected_scale_name": selectedScaleName } );
+    sendMessage("ChangeScale", {
+      room_name: roomName,
+      selected_scale_name: selectedScaleName,
+    });
   },
 
   setAvatar(email: string) {
@@ -158,17 +168,16 @@ export default {
   setName(name: string) {
     setName(name);
   },
-  
-  updateActive(roomName: string, userId: string, active: boolean)
-  {
-      updateActive(roomName, userId, active);
+
+  updateActive(roomName: string, userId: string, active: boolean) {
+    updateActive(roomName, userId, active);
   },
 
   on(event: string, callback: Function) {
-    eventBus.$on(event, data => callback(data));
+    eventBus.$on(event, (data) => callback(data));
   },
 
   once(event: string, callback: Function) {
-    eventBus.$once(event, data => callback(data));
-  }
+    eventBus.$once(event, (data) => callback(data));
+  },
 };
